@@ -40,7 +40,7 @@ Getting Started
 ```bash
 git clone https://github.com/carvz0r/aripaev-2.git
 
-cd estonian-salary-calculator
+cd aripaev-2
 ```
 
 2. Install dependencies
