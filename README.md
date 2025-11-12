@@ -59,15 +59,15 @@ Create a .env file in the root of the project:
 
 ```env
 
-OpenAI API key (required)
+#OpenAI API key (required)
 
 OPENAI_API_KEY=your_openai_api_key_here
 
-Optional: specify which model to use
+#Optional: specify which model to use
 
 OPEN_API_MODEL="gpt-4o-mini"
 
-Disable Next.js telemetry
+#Disable Next.js telemetry
 
 NEXT_TELEMETRY_DISABLED=1
 ```
