@@ -78,9 +78,9 @@ NEXT_TELEMETRY_DISABLED=1
 
 ```bash
 npm run dev
-
+```
 or
-
+```bash
 yarn dev
 ```
 
