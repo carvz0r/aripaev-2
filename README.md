@@ -72,7 +72,7 @@ Disable Next.js telemetry
 NEXT_TELEMETRY_DISABLED=1
 ```
 
-⚠️ Make sure to replace your_openai_api_key_here with your actual OpenAI API key.
+⚠️ Make sure to replace `your_openai_api_key_here` with your actual OpenAI API key.
 
 4. Run the development server
 
