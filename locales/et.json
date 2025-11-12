@@ -1,0 +1,52 @@
+{
+  "HomePage": {
+    "title": "Eesti Palkade Kalkulaator"
+  },
+  "CalculatorResults": {
+    "Total Employer Cost": "Tööandja kogukulu",
+    "Social Tax (employer)": "Sotsiaalmaks (tööandja)",
+    "Unemployment Insurance (employer)": "Töötuskindlustus (tööandja)",
+    "Gross Salary": "Brutopalk",
+    "Pension Fund (II pillar, 2%)": "Kogumispension (II sammas, 2%)",
+    "Unemployment Insurance (employee)": "Töötuskindlustus (töötaja)",
+    "Income Tax": "Tulumaks",
+    "Net Salary": "Netopalk",
+    "EUR": "EUR"
+  },
+  "Calculator": {
+    "Input": "Sisend",
+    "Salary type": "Palgatüüp",
+    "Choose": "Vali",
+    "Net salary": "Netopalk",
+    "after tax": "pärast makse",
+    "Gross salary": "Brutopalk",
+    "before tax": "enne makse",
+    "Employer cost": "Tööandja kulu",
+    "employer's expense": "palgafond",
+    "Select whether you want to input net, gross or employer cost": "Vali, kas sisestad neto-, bruto- või tööandja kulu",
+    "Salary": "Palk",
+    "e_g": "näiteks",
+    "Enter the amount corresponding to the selected input type": "Sisesta summa vastavalt valitud sisenditüübile",
+    "Pension contribution": "Pensionimakse",
+    "Unemployment insurance": "Töötuskindlustus",
+    "Calculating": "Arvutamine",
+    "Generating summary": "Kokkuvõtte genereerimine",
+    "Calculate": "Arvuta",
+    "Results": "Tulemused"
+  },
+  "LocaleSwitcher": {
+    "label": "Keele muutmine",
+    "locale": "{locale, select, ru {Русский} en {English} et {Eesti} other {Unknown}}"
+  },
+  "Summary": {
+    "title": "Kokkuvõte",
+    "intro1": "Siin kuvatakse üksikasjalik ülevaade teie palgast — kui palju makse läheb riigile, kui palju te tegelikult kätte saate ja kui palju teie töö maksab tööandjale.",
+    "intro2": "Eestis võib palgastruktuur tunduda keeruline: sotsiaalmaks, pensionimakse, töötuskindlustus ja tulumaks — kõik need mõjutavad lõplikku summat.",
+    "beforeList": "Pärast arvutust teate:",
+    "list": {
+      "netSalary": "netopalga summat, mis laekub teie arvele;",
+      "taxes": "maksude suurust, mis peetakse kinni teilt ja maksab tööandja;",
+      "totalCost": "teie töö kogukulu ettevõtte jaoks."
+    }
+  }
+}

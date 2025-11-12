@@ -6,17 +6,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-interface SalaryBreakdown {
-  employerCost: number;
-  socialTax: number;
-  unemploymentEmployer: number;
-  gross: number;
-  pension: number;
-  unemploymentEmployee: number;
-  incomeTax: number;
-  net: number;
-}
+import { useTranslations } from "next-intl";
+import { SalaryBreakdown } from "./Calculator";
 
 interface SalaryResultTableProps {
   breakdown: SalaryBreakdown;
@@ -25,44 +16,47 @@ interface SalaryResultTableProps {
 export default function SalaryResultTable({
   breakdown,
 }: SalaryResultTableProps) {
+
+  const t = useTranslations('CalculatorResults');
+
   const rows = [
     {
-      label: "💼 Total Employer Cost",
+      label: "💼 " + t("Total Employer Cost"),
       eur: breakdown.employerCost,
       percent: "100%",
     },
     {
-      label: "Social Tax (employer)",
+      label: t("Social Tax (employer)"),
       eur: breakdown.socialTax,
       percent: "33%",
     },
     {
-      label: "Unemployment Insurance (employer)",
+      label: t("Unemployment Insurance (employer)"),
       eur: breakdown.unemploymentEmployer,
       percent: "0.8%",
     },
     {
-      label: "Gross Salary",
+      label: t("Gross Salary"),
       eur: breakdown.gross,
       percent: "-",
     },
     {
-      label: "Pension Fund (II pillar, 2%)",
+      label: t("Pension Fund (II pillar, 2%)"),
       eur: breakdown.pension,
       percent: "2%",
     },
     {
-      label: "Unemployment Insurance (employee)",
+      label: t("Unemployment Insurance (employee)"),
       eur: breakdown.unemploymentEmployee,
       percent: "1.6%",
     },
     {
-      label: "Income Tax",
+      label: t("Income Tax"),
       eur: breakdown.incomeTax,
       percent: "22%",
     },
     {
-      label: "💰 Net Salary",
+      label: "💰 " +t("Net Salary"),
       eur: breakdown.net,
       percent: "-",
       Highlighted: true,
@@ -75,7 +69,7 @@ export default function SalaryResultTable({
         <TableHeader>
           <TableRow>
             <TableHead className="font-semibold"></TableHead>
-            <TableHead className="text-right font-semibold">EUR</TableHead>
+            <TableHead className="text-right font-semibold">{t("EUR")}</TableHead>
             <TableHead className="text-right font-semibold">%</TableHead>
           </TableRow>
         </TableHeader>

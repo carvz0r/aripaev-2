@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Estonian Salary Calculator
+
+A simple salary calculator for Estonia. It calculates **net salary**, **gross salary**, **employer cost**, and generates a **salary summary** using OpenAI. Supports multiple languages (English, Russian, Estonian).
+
+---
+
+## Features
+
+- Calculate salary from net, gross, or employer cost.
+- Breakdown of taxes and contributions:
+  - Income tax
+  - Social tax
+  - Pension contributions
+  - Unemployment insurance
+- Generate a short AI-powered summary of the salary:
+  - Explains lifestyle for the salary
+  - Shows salary growth trend
+  - Suggests realistic skills or industries to increase income
+- Multi-language support with translations
+- Responsive UI with TailwindCSS and Radix components
+
+---
+
+## Tech Stack
+
+- **Next.js 13** (App Router)
+- **TypeScript**
+- **TailwindCSS**
+- **Radix UI**
+- **OpenAI API** (GPT-4o-mini by default)
+- **next-intl** for i18n
+
+---
 
 ## Getting Started
 
-First, run the development server:
+Getting Started
+1. Clone the repository
+
+```bash
+git clone https://github.com/carvz0r/aripaev-2.git
+
+cd estonian-salary-calculator
+```
+
+2. Install dependencies
+
+```bash
+npm install
+
+or
+
+yarn install
+```
+
+3. Environment Variables
+
+Create a .env file in the root of the project:
+
+```env
+
+OpenAI API key (required)
+
+OPENAI_API_KEY=your_openai_api_key_here
+
+Optional: specify which model to use
+
+OPEN_API_MODEL="gpt-4o-mini"
+
+Disable Next.js telemetry
+
+NEXT_TELEMETRY_DISABLED=1
+```
+
+⚠️ Make sure to replace your_openai_api_key_here with your actual OpenAI API key.
+
+4. Run the development server
 
 ```bash
 npm run dev
-# or
+
+or
+
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000
+ with your browser to see the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+License
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT © alex carv

@@ -1,0 +1,52 @@
+{
+  "HomePage": {
+    "title": "Estonian Salary Calculator"
+  },
+  "CalculatorResults": {
+    "Total Employer Cost": "Total Employer Cost",
+    "Social Tax (employer)": "Social Tax (employer)",
+    "Unemployment Insurance (employer)": "Unemployment Insurance (employer)",
+    "Gross Salary": "Gross Salary",
+    "Pension Fund (II pillar, 2%)": "Pension Fund (II pillar, 2%)",
+    "Unemployment Insurance (employee)": "Unemployment Insurance (employee)",
+    "Income Tax": "Income Tax",
+    "Net Salary": "Net Salary",
+    "EUR": "EUR"
+  },
+  "Calculator": {
+    "Input": "Input",
+    "Salary type": "Salary type",
+    "Choose": "Choose",
+    "Net salary": "Net salary",
+    "after tax": "after tax",
+    "Gross salary": "Gross salary",
+    "before tax": "before tax",
+    "Employer cost": "Payroll Fund",
+    "employer's expense": "employer's expense",
+    "Select whether you want to input net, gross or employer cost": "Select whether you want to input net, gross or employer cost",
+    "Salary": "Salary",
+    "e_g": "e.g.",
+    "Enter the amount corresponding to the selected input type": "Enter the amount corresponding to the selected input type",
+    "Pension contribution": "Pension contribution",
+    "Unemployment insurance": "Unemployment insurance",
+    "Calculating": "Calculating",
+    "Generating summary": "Generating summary",
+    "Calculate": "Calculate",
+    "Results": "Results"
+  },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, ru {Русский} en {English} et {Eesti} other {Unknown}}"
+  },
+  "Summary": {
+    "title": "Summary",
+    "intro1": "Here you will find a detailed summary of your salary — how much tax goes to the state, how much you actually receive, and how much your work costs the employer.",
+    "intro2": "In Estonia, the salary structure can seem complex: social tax, pension contributions, unemployment insurance, and income tax — all of these affect your final amount.",
+    "beforeList": "After the calculation you will know:",
+    "list": {
+      "netSalary": "the net salary that you receive on your account;",
+      "taxes": "the amount of taxes withheld from you and paid by your employer;",
+      "totalCost": "the total cost of your work for the company."
+    }
+  }
+}
