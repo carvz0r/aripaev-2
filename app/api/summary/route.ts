@@ -1,17 +1,26 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export async function POST(req: Request) {
   try {
-    const body = await req.json().catch(() => null);
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json(
+        {
+          error:
+            "Missing OpenAI API key. Please set OPENAI_API_KEY in your environment variables.",
+          code: "missing_api_key",
+        },
+        { status: 500 }
+      );
+    }
 
+    const client = new OpenAI({ apiKey });
+
+    const body = await req.json().catch(() => null);
     if (!body || typeof body !== "object") {
       return NextResponse.json(
-        { error: "Invalid request body" },
+        { error: "Invalid request body", code: "invalid_body" },
         { status: 400 }
       );
     }
@@ -24,7 +33,7 @@ export async function POST(req: Request) {
       typeof employer !== "number"
     ) {
       return NextResponse.json(
-        { error: "Invalid or missing salary data" },
+        { error: "Invalid or missing salary data", code: "invalid_salary" },
         { status: 400 }
       );
     }
@@ -52,19 +61,17 @@ Write a short summary in ${languageName} (3–4 sentences):
 1. Explain what kind of lifestyle this salary provides in Estonia.
 2. Mention the current salary growth trend in Estonia (is it increasing or stable?).
 3. Suggest realistic skills, industries, or strategies to increase income, tailored to this salary level (avoid generic advice if the salary is already high or very high).
-
 Keep it concise, factual, and culturally relevant.
 `;
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 10000);
 
-    const model = process.env.OPEN_API_MODEL
-      ? process.env.OPEN_API_MODEL
-      : "gpt-4o-mini";
+    const model = process.env.OPEN_API_MODEL || "gpt-4o-mini";
+
     const completion = await client.chat.completions.create(
       {
-        model: model,
+        model,
         messages: [{ role: "user", content: prompt }],
         temperature: 0.7,
         max_tokens: 250,
@@ -101,10 +108,12 @@ Keep it concise, factual, and culturally relevant.
         {
           error:
             "The request took too long to complete. Please try again later.",
+          code: "timeout",
         },
         { status: 504 }
       );
     }
+
     return NextResponse.json(
       {
         error:
