@@ -2,67 +2,95 @@
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const body = await req.json();
-  const { type, salaryAmount, pensionRate, unemployment } = body;
+  try {
+    const body = await req.json();
+    const { type, salaryAmount, pensionRate, unemployment } = body;
 
-  const INCOME_TAX = 0.22;
-  const SOCIAL_TAX = 0.33;
-  const unempEmp = unemployment ? 0.008 : 0;
-  const unempWorker = unemployment ? 0.016 : 0;
-  const TAX_FREE = 654;
-
-  const calcIncomeTax = (grossSalary: number) => {
-    const taxable = Math.max(grossSalary - TAX_FREE, 0);
-    return taxable * INCOME_TAX;
-  };
-
-  let net: number;
-  let gross: number;
-  let employer: number;
-
-  if (type === "net") {
-    //Net
-    let guess = salaryAmount;
-    for (let i = 0; i < 10; i++) {
-      const incomeTax = calcIncomeTax(guess);
-      const prev = guess;
-      guess =
-        salaryAmount + incomeTax + guess * pensionRate + guess * unempWorker;
-      if (Math.abs(prev - guess) < 0.01) break;
+    if (!["gross", "net", "employer"].includes(type)) {
+      return NextResponse.json(
+        { error: "Invalid salary type", code: "invalid_type" },
+        { status: 400 }
+      );
     }
-    gross = guess;
-    net = salaryAmount;
-    employer = gross * (1 + SOCIAL_TAX + unempEmp);
-  } else if (type === "gross") {
-    //Gross
-    gross = salaryAmount;
-    const incomeTax = calcIncomeTax(gross);
-    net = gross - incomeTax - gross * pensionRate - gross * unempWorker;
-    employer = gross * (1 + SOCIAL_TAX + unempEmp);
-  } else if (type === "employer") {
-    //Employer
-    employer = salaryAmount;
-    gross = employer / (1 + SOCIAL_TAX + unempEmp);
-    const incomeTax = calcIncomeTax(gross);
-    net = gross - incomeTax - gross * pensionRate - gross * unempWorker;
-  } else {
-    return NextResponse.json(
-      { error: "Invalid salary type", code: "invalid_type" },
-      { status: 400 }
-    );
-  }
 
-  const socialTax = gross * SOCIAL_TAX;
-  const unempEmpTax = gross * unempEmp;
-  const pension = gross * pensionRate;
-  const unempWorkerTax = gross * unempWorker;
-  const incomeTax = calcIncomeTax(gross);
+    const INCOME_TAX = 0.22;
+    const SOCIAL_TAX = 0.33;
+    const unempEmp = unemployment ? 0.008 : 0;
+    const unempWorker = unemployment ? 0.016 : 0;
 
-  return NextResponse.json({
-    net: Math.round(net),
-    gross: Math.round(gross),
-    employer: Math.round(employer),
-    breakdown: {
+    // (Estonia 2025)
+    const calcTaxFree = (grossSalary: number): number => {
+      const annualIncome = grossSalary * 12;
+      const MAX_TAX_FREE = 654;
+      const MIN_TAX_FREE = 0;
+      const REDUCTION_START = 14400;
+      const REDUCTION_END = 25200;
+
+      if (annualIncome <= REDUCTION_START) return MAX_TAX_FREE;
+      if (annualIncome >= REDUCTION_END) return MIN_TAX_FREE;
+
+      const reduction =
+        MAX_TAX_FREE *
+        (1 -
+          (annualIncome - REDUCTION_START) / (REDUCTION_END - REDUCTION_START));
+      return Math.max(reduction, 0);
+    };
+
+    const calcIncomeTax = (
+      grossSalary: number,
+      pensionRate: number,
+      unempWorkerRate: number
+    ): number => {
+      const taxFree = calcTaxFree(grossSalary);
+      const taxableBase = Math.max(
+        grossSalary -
+          grossSalary * pensionRate -
+          grossSalary * unempWorkerRate -
+          taxFree,
+        0
+      );
+      return taxableBase * INCOME_TAX;
+    };
+
+    let gross: number;
+    let net: number;
+    let employer: number;
+
+    if (type === "net") {
+      // Net → Gross
+      let guess = salaryAmount;
+      for (let i = 0; i < 20; i++) {
+        const tax = calcIncomeTax(guess, pensionRate, unempWorker);
+        const newGuess =
+          salaryAmount + tax + guess * pensionRate + guess * unempWorker;
+        if (Math.abs(newGuess - guess) < 0.01) break;
+        guess = newGuess;
+      }
+      gross = guess;
+      net = salaryAmount;
+      employer = gross * (1 + SOCIAL_TAX + unempEmp);
+    } else if (type === "gross") {
+      // Gross → Net
+      gross = salaryAmount;
+      const incomeTax = calcIncomeTax(gross, pensionRate, unempWorker);
+      net = gross - incomeTax - gross * pensionRate - gross * unempWorker;
+      employer = gross * (1 + SOCIAL_TAX + unempEmp);
+    } else {
+      // Employer → Gross + Net
+      employer = salaryAmount;
+      gross = employer / (1 + SOCIAL_TAX + unempEmp);
+      const incomeTax = calcIncomeTax(gross, pensionRate, unempWorker);
+      net = gross - incomeTax - gross * pensionRate - gross * unempWorker;
+    }
+
+    const socialTax = gross * SOCIAL_TAX;
+    const unempEmpTax = gross * unempEmp;
+    const pension = gross * pensionRate;
+    const unempWorkerTax = gross * unempWorker;
+    const incomeTax = calcIncomeTax(gross, pensionRate, unempWorker);
+    const taxFree = calcTaxFree(gross);
+
+    const breakdown = {
       employerCost: employer,
       socialTax,
       unemploymentEmployer: unempEmpTax,
@@ -71,6 +99,36 @@ export async function POST(req: Request) {
       unemploymentEmployee: unempWorkerTax,
       incomeTax,
       net,
-    },
-  });
+      taxFree,
+      percents: {
+        gross: 100,
+        pension: +((pension / gross) * 100).toFixed(2),
+        unemploymentEmployee: +((unempWorkerTax / gross) * 100).toFixed(2),
+        incomeTax: +((incomeTax / gross) * 100).toFixed(2),
+        socialTax: +((socialTax / gross) * 100).toFixed(2),
+        unemploymentEmployer: +((unempEmpTax / gross) * 100).toFixed(2),
+        employerCost: +((employer / gross) * 100).toFixed(2),
+        net: +((net / gross) * 100).toFixed(2),
+      },
+    };
+
+    return NextResponse.json({
+      net: Math.round(net * 100) / 100,
+      gross: Math.round(gross * 100) / 100,
+      employer: Math.round(employer * 100) / 100,
+      breakdown,
+    });
+  } catch (error) {
+    console.error("Calculation error:", error);
+    return NextResponse.json(
+      {
+        error: "Calculation failed",
+        details:
+          process.env.NODE_ENV === "development"
+            ? (error as Error).message
+            : undefined,
+      },
+      { status: 500 }
+    );
+  }
 }

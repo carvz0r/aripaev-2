@@ -16,49 +16,55 @@ interface SalaryResultTableProps {
 export default function SalaryResultTable({
   breakdown,
 }: SalaryResultTableProps) {
+  const t = useTranslations("CalculatorResults");
 
-  const t = useTranslations('CalculatorResults');
+  const percents = breakdown.percents;
 
   const rows = [
     {
       label: "💼 " + t("Total Employer Cost"),
       eur: breakdown.employerCost,
-      percent: "100%",
+      percent: `${percents.employerCost}%`,
     },
     {
       label: t("Social Tax (employer)"),
       eur: breakdown.socialTax,
-      percent: "33%",
+      percent: `${percents.socialTax}%`,
     },
     {
       label: t("Unemployment Insurance (employer)"),
       eur: breakdown.unemploymentEmployer,
-      percent: "0.8%",
+      percent: `${percents.unemploymentEmployer}%`,
     },
     {
       label: t("Gross Salary"),
       eur: breakdown.gross,
+      percent: `${percents.gross}%`,
+    },
+    {
+      label: t("Tax Free"),
+      eur: breakdown.taxFree,
       percent: "-",
     },
     {
       label: t("Pension Fund (II pillar, 2%)"),
       eur: breakdown.pension,
-      percent: "2%",
+      percent: `${percents.pension}%`,
     },
     {
       label: t("Unemployment Insurance (employee)"),
       eur: breakdown.unemploymentEmployee,
-      percent: "1.6%",
+      percent: `${percents.unemploymentEmployee}%`,
     },
     {
       label: t("Income Tax"),
       eur: breakdown.incomeTax,
-      percent: "22%",
+      percent: `${percents.incomeTax}%`,
     },
     {
-      label: "💰 " +t("Net Salary"),
+      label: "💰 " + t("Net Salary"),
       eur: breakdown.net,
-      percent: "-",
+      percent: `${percents.net}%`,
       Highlighted: true,
     },
   ];
@@ -69,7 +75,9 @@ export default function SalaryResultTable({
         <TableHeader>
           <TableRow>
             <TableHead className="font-semibold"></TableHead>
-            <TableHead className="text-right font-semibold">{t("EUR")}</TableHead>
+            <TableHead className="text-right font-semibold">
+              {t("EUR")}
+            </TableHead>
             <TableHead className="text-right font-semibold">%</TableHead>
           </TableRow>
         </TableHeader>

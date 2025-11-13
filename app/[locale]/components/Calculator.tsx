@@ -7,6 +7,18 @@ import { useLocale, useTranslations } from "next-intl";
 import Summary from "./Summary";
 import CalculatorForm, { SalaryInput } from "./CalculatorForm";
 
+
+export interface SalaryBreakdownPercents {
+  employerCost: number;
+  socialTax: number;
+  unemploymentEmployer: number;
+  gross: number;
+  pension: number;
+  unemploymentEmployee: number;
+  incomeTax: number;
+  net: number;
+}
+
 export interface SalaryBreakdown {
   employerCost: number;
   socialTax: number;
@@ -16,6 +28,8 @@ export interface SalaryBreakdown {
   unemploymentEmployee: number;
   incomeTax: number;
   net: number;
+  taxFree: number;
+  percents: SalaryBreakdownPercents;
 }
 
 interface SalaryResult {
@@ -41,6 +55,17 @@ export default function Calculator() {
       unemploymentEmployee: 0,
       incomeTax: 0,
       net: 0,
+      taxFree: 0,
+      percents: {
+        employerCost: 0,
+        socialTax: 0,
+        unemploymentEmployer: 0,
+        gross: 0,
+        pension: 0,
+        unemploymentEmployee: 0,
+        incomeTax: 0,
+        net: 0
+      }
     },
   });
   const [summary, setSummary] = useState<string>("");
