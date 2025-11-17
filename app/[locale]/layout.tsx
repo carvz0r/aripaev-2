@@ -26,10 +26,7 @@ export default async function RootLayout({ children, params }: Props) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <head />
-      <body
-        className="antialiased font-sans text-gray-700 dark:text-gray-300"
-        suppressHydrationWarning
-      >
+      <body className="antialiased font-sans text-gray-700 dark:text-gray-300">
         <ThemeProvider attribute="class" defaultTheme="system">
           <NextIntlClientProvider>{children}</NextIntlClientProvider>
           <Toaster />
