@@ -7,9 +7,9 @@ export const AVAILABLE_LOCALES: {
   label: string;
   flag: string;
 }[] = [
+  { value: "et", label: "Eesti", flag: "🇪🇪" },
   { value: "en", label: "English", flag: "🇬🇧" },
   { value: "ru", label: "Русский", flag: "🇷🇺" },
-  { value: "et", label: "Eesti", flag: "🇪🇪" },
 ];
 
 export const routing = defineRouting({
