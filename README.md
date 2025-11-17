@@ -89,4 +89,4 @@ Open http://localhost:3000
 
 License
 
-MIT © alex carv
+All rights reserved © aleksei
