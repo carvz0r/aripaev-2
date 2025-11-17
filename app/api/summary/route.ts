@@ -3,12 +3,13 @@ import { NextResponse } from "next/server";
 import { getTranslations } from "next-intl/server";
 import OpenAI from "openai";
 import { AVAILABLE_LOCALES, routing } from "@/i18n/routing";
+import { SummaryRequestBody } from "@/types/api";
 
 export async function POST(req: Request) {
   let locale = routing.defaultLocale;
   try {
-    const body = await req.json().catch(() => null);
-    const { net, gross, employer } = body;
+    const body: SummaryRequestBody = await req.json().catch(() => null);
+    const { net, gross, employerCost } = body;
     locale = body?.locale || locale;
 
     // Getting locale translator
@@ -37,7 +38,7 @@ export async function POST(req: Request) {
     if (
       typeof net !== "number" ||
       typeof gross !== "number" ||
-      typeof employer !== "number"
+      typeof employerCost !== "number"
     ) {
       return NextResponse.json(
         { message: t("invalid_salary"), code: "invalid_salary" },
@@ -52,15 +53,15 @@ export async function POST(req: Request) {
 This data refers to Estonia:
 - Net salary: €${net}
 - Gross salary: €${gross}
-- Employer total cost: €${employer}
+- Employer total cost: €${employerCost}
 
 Based on this salary, classify it as:
-- low (approx. 0–2000€ net/month)
-- medium (2000–4000€)
-- high (4000–8000€)
-- very high (8000€+)
+- low
+- medium
+- high
+- very high
 
-Write a short summary in ${languageName} (3–4 sentences):
+Write a short summary in ${languageName} (3–4 sentences) **as if a human is responding** — do not sound like a machine or AI:
 1. Explain what kind of lifestyle this salary provides in Estonia.
 2. Mention the current salary growth trend in Estonia (is it increasing or stable?).
 3. Suggest realistic skills, industries, or strategies to increase income, tailored to this salary level.

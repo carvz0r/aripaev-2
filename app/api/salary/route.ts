@@ -19,7 +19,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-    
+
     const INCOME_TAX = 0.22;
     const SOCIAL_TAX = 0.33;
     const unempEmp = unemployment ? 0.008 : 0;
@@ -97,16 +97,16 @@ export async function POST(req: Request) {
     const incomeTax = calcIncomeTax(gross, pensionRate, unempWorker);
     const taxFree = calcTaxFree(gross);
 
-    const breakdown = {
-      employerCost: employer,
-      socialTax,
-      unemploymentEmployer: unempEmpTax,
-      gross,
-      pension,
-      unemploymentEmployee: unempWorkerTax,
-      incomeTax,
-      net,
-      taxFree,
+    const results = {
+      employerCost: Math.round(employer),
+      socialTax: Math.round(socialTax),
+      unemploymentEmployer: Math.round(unempEmpTax),
+      gross: Math.round(gross),
+      pension: Math.round(pension),
+      unemploymentEmployee: Math.round(unempWorkerTax),
+      incomeTax: Math.round(incomeTax),
+      net: Math.round(net),
+      taxFree: Math.round(taxFree),
       percents: {
         gross: 100,
         pension: +((pension / gross) * 100).toFixed(2),
@@ -119,12 +119,7 @@ export async function POST(req: Request) {
       },
     };
 
-    return NextResponse.json({
-      net: Math.round(net * 100) / 100,
-      gross: Math.round(gross * 100) / 100,
-      employer: Math.round(employer * 100) / 100,
-      breakdown,
-    });
+    return NextResponse.json(results);
   } catch (error) {
     console.error("Calculation error:", error);
 
