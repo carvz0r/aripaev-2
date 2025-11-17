@@ -114,11 +114,8 @@ Keep it concise, factual, and culturally relevant.
 
     return NextResponse.json(
       {
-        message:
-          t("summary_unexpected"),
-        ...(process.env.NODE_ENV === "development" && {
-          details: error.message || JSON.stringify(error),
-        }),
+        message: t("summary_unexpected"),
+        code: "summary_unexpected",
       },
       { status: 500 }
     );
