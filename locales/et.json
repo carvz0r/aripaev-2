@@ -49,5 +49,15 @@
       "taxes": "maksude suurust, mis peetakse kinni teilt ja maksab tööandja;",
       "totalCost": "teie töö kogukulu ettevõtte jaoks."
     }
+  },
+  "api": {
+    "invalid_salary_type": "Kehtetu palgatüüp",
+    "calculation_failed": "Arvutus ebaõnnestus",
+    "missing_api_key": "OpenAI API võti puudub",
+    "invalid_salary": "Vale või puuduvad palgaandmed",
+    "invalid_body": "Kehtetu päringu keha",
+    "insufficient_quota": "OpenAI API limiit on ületatud — proovige hiljem uuesti",
+    "timeout": "Päring võttis liiga kaua aega. Proovige hiljem uuesti",
+    "summary_unexpected": "Sündis ootamatu viga kokkuvõtte genereerimisel. Proovige hiljem uuesti"
   }
 }

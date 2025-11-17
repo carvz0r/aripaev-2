@@ -1,14 +1,31 @@
+// app/api/summary/route.ts
 import { NextResponse } from "next/server";
+import { getTranslations } from "next-intl/server";
 import OpenAI from "openai";
+import { AVAILABLE_LOCALES } from "@/i18n/routing";
 
 export async function POST(req: Request) {
+  let locale = "en";
   try {
+    const body = await req.json().catch(() => null);
+    const { net, gross, employer } = body;
+    locale = body?.locale || locale;
+
+    // Getting locale translator
+    const t = await getTranslations({ locale, namespace: "api" });
+
+    if (!body || typeof body !== "object") {
+      return NextResponse.json(
+        { message: t("Invalid request body"), code: "invalid_body" },
+        { status: 400 }
+      );
+    }
+
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
         {
-          error:
-            "Missing OpenAI API key. Please set OPENAI_API_KEY in your environment variables.",
+          message: t("missing_api_key"),
           code: "missing_api_key",
         },
         { status: 500 }
@@ -17,33 +34,19 @@ export async function POST(req: Request) {
 
     const client = new OpenAI({ apiKey });
 
-    const body = await req.json().catch(() => null);
-    if (!body || typeof body !== "object") {
-      return NextResponse.json(
-        { error: "Invalid request body", code: "invalid_body" },
-        { status: 400 }
-      );
-    }
-
-    const { net, gross, employer, locale } = body;
-
     if (
       typeof net !== "number" ||
       typeof gross !== "number" ||
       typeof employer !== "number"
     ) {
       return NextResponse.json(
-        { error: "Invalid or missing salary data", code: "invalid_salary" },
+        { message: t("invalid_salary"), code: "invalid_salary" },
         { status: 400 }
       );
     }
 
-    const langMap: Record<string, string> = {
-      ru: "Russian",
-      et: "Estonian",
-      en: "English",
-    };
-    const languageName = langMap[locale] || "English";
+    const localeObj = AVAILABLE_LOCALES.find((l) => l.value === locale);
+    const languageName = localeObj?.label || "English";
 
     const prompt = `
 This data refers to Estonia:
@@ -60,7 +63,7 @@ Based on this salary, classify it as:
 Write a short summary in ${languageName} (3–4 sentences):
 1. Explain what kind of lifestyle this salary provides in Estonia.
 2. Mention the current salary growth trend in Estonia (is it increasing or stable?).
-3. Suggest realistic skills, industries, or strategies to increase income, tailored to this salary level (avoid generic advice if the salary is already high or very high).
+3. Suggest realistic skills, industries, or strategies to increase income, tailored to this salary level.
 Keep it concise, factual, and culturally relevant.
 `;
 
@@ -81,22 +84,18 @@ Keep it concise, factual, and culturally relevant.
 
     clearTimeout(timeout);
 
-    const summary =
-      completion.choices?.[0]?.message?.content?.trim() ||
-      (languageName === "Russian"
-        ? "Не удалось получить сводку. Попробуйте позже."
-        : languageName === "Estonian"
-        ? "Kokkuvõtte saamine ebaõnnestus. Proovige hiljem uuesti."
-        : "Could not generate summary. Please try again later.");
+    const summary = completion.choices?.[0]?.message?.content?.trim();
 
     return NextResponse.json({ summary });
   } catch (error: any) {
     console.error("Summary API error:", error);
 
+    const t = await getTranslations({ locale, namespace: "api" });
+
     if (error.status === 429 || error.code === "insufficient_quota") {
       return NextResponse.json(
         {
-          error: "OpenAI API limit reached — please try again later.",
+          message: t("insufficient_quota"),
           code: "insufficient_quota",
         },
         { status: 429 }
@@ -106,8 +105,7 @@ Keep it concise, factual, and culturally relevant.
     if (error.name === "AbortError") {
       return NextResponse.json(
         {
-          error:
-            "The request took too long to complete. Please try again later.",
+          message: t("timeout"),
           code: "timeout",
         },
         { status: 504 }
@@ -116,8 +114,8 @@ Keep it concise, factual, and culturally relevant.
 
     return NextResponse.json(
       {
-        error:
-          "An unexpected error occurred while generating the summary. Please try again later.",
+        message:
+          t("summary_unexpected"),
         ...(process.env.NODE_ENV === "development" && {
           details: error.message || JSON.stringify(error),
         }),

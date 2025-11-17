@@ -1,14 +1,20 @@
-// app/api/calc/route.ts
+// app/api/salary/route.ts
+import { getTranslations } from "next-intl/server";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
+  let locale = "en";
   try {
     const body = await req.json();
+    locale = body?.locale || locale;
     const { type, salaryAmount, pensionRate, unemployment } = body;
+
+    // Getting locale translator
+    const t = await getTranslations({ locale, namespace: "api" });
 
     if (!["gross", "net", "employer"].includes(type)) {
       return NextResponse.json(
-        { error: "Invalid salary type", code: "invalid_type" },
+        { message: t("invalid_salary_type"), code: "invalid_salary_type" },
         { status: 400 }
       );
     }
@@ -120,13 +126,14 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("Calculation error:", error);
+    
+    // Getting locale translator
+    const t = await getTranslations({ locale, namespace: "api" });
+
     return NextResponse.json(
       {
-        error: "Calculation failed",
-        details:
-          process.env.NODE_ENV === "development"
-            ? (error as Error).message
-            : undefined,
+        message: t("calculation_failed"),
+        code: "calculation_failed",
       },
       { status: 500 }
     );

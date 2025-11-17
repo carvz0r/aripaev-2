@@ -49,5 +49,15 @@
       "taxes": "the amount of taxes withheld from you and paid by your employer;",
       "totalCost": "the total cost of your work for the company."
     }
+  },
+  "api": {
+    "invalid_salary_type": "Invalid salary type",
+    "calculation_failed": "Calculation failed",
+    "missing_api_key": "Missing OpenAI API key.",
+    "invalid_salary": "Invalid or missing salary data",
+    "invalid_body": "Invalid request body",
+    "insufficient_quota": "OpenAI API limit reached — please try again later.",
+    "timeout": "The request took too long. Please try again later.",
+    "summary_unexpected": "An unexpected error occurred while generating the summary. Please try again later."
   }
 }
