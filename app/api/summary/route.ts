@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 
     if (!body || typeof body !== "object") {
       return NextResponse.json(
-        { message: t("Invalid request body"), code: "invalid_body" },
+        { message: t("invalid_body"), code: "invalid_body" },
         { status: 400 }
       );
     }
