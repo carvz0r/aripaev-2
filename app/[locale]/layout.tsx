@@ -1,17 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import {NextIntlClientProvider} from 'next-intl';
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { NextIntlClientProvider } from "next-intl";
+import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
   title: "Aripaev Test Work",
@@ -25,10 +15,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head/>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className="antialiased font-sans text-gray-700 dark:text-gray-300"
       >
-         <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <ThemeProvider attribute="class" defaultTheme="system">
+          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
