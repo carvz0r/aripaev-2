@@ -62,7 +62,7 @@ export default function CalculatorForm({ onCalculate, loading }: Props) {
             <FieldLabel htmlFor="inputType">{t("Salary type")}</FieldLabel>
             <Select
               value={inputType}
-              onValueChange={(v) => setInputType(v as any)}
+              onValueChange={(v) => setInputType(v as SalaryInput["type"])}
             >
               <SelectTrigger id="inputType">
                 <SelectValue placeholder={"Choose"} />
