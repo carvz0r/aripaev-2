@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { TypographyH2 } from "@/components/ui/h2";
 import SalaryResultTable from "./SalaryResultTable";
-import { useLocale, useTranslations } from "next-intl";
 import Summary from "./Summary";
 import CalculatorForm, { SalaryInput } from "./CalculatorForm";
+
+import { useLocale, useTranslations } from "next-intl";
+import { toast } from "sonner";
+import { fetchSalary, fetchSummary } from "@/lib/api";
 
 export interface SalaryBreakdownPercents {
   employerCost: number;
@@ -74,21 +77,14 @@ export default function Calculator() {
   const handleCalculate = async (input: SalaryInput) => {
     setLoading("salary");
     try {
-      const res = await fetch("/api/salary", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(input),
-      });
-      const data = await res.json();
-      setResult(data);
+      const salaryData = await fetchSalary(input);
+      setResult(salaryData);
+      
       setLoading("summary");
-      const summaryRes = await fetch("/api/summary", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, locale }),
-      });
-      const summaryData = await summaryRes.json();
-      setSummary(summaryData.summary);
+      const summary = await fetchSummary(salaryData, locale);
+      setSummary(summary);
+    } catch (err: any) {
+      toast.error(err.message);
     } finally {
       setLoading("idle");
     }
