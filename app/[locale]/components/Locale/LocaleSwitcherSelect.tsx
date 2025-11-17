@@ -10,7 +10,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "@/components/ui/select";
 import { SelectViewport } from "@radix-ui/react-select";
 import { useParams } from "next/navigation";
 

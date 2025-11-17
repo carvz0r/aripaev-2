@@ -9,46 +9,22 @@ import CalculatorForm, { SalaryInput } from "./CalculatorForm";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { fetchSalary, fetchSummary } from "@/lib/api";
-
-export interface SalaryBreakdownPercents {
-  employerCost: number;
-  socialTax: number;
-  unemploymentEmployer: number;
-  gross: number;
-  pension: number;
-  unemploymentEmployee: number;
-  incomeTax: number;
-  net: number;
-}
-
-export interface SalaryBreakdown {
-  employerCost: number;
-  socialTax: number;
-  unemploymentEmployer: number;
-  gross: number;
-  pension: number;
-  unemploymentEmployee: number;
-  incomeTax: number;
-  net: number;
-  taxFree: number;
-  percents: SalaryBreakdownPercents;
-}
-
-interface SalaryResult {
-  net: number;
-  gross: number;
-  employer: number;
-  breakdown: SalaryBreakdown;
-}
+import { SalaryResults } from "@/types/api";
 
 export type LoadingState = "idle" | "salary" | "summary";
 
 export default function Calculator() {
-  const [result, setResult] = useState<SalaryResult>({
-    net: 0,
+  const [results, setResults] = useState<SalaryResults>({
+    employerCost: 0,
+    socialTax: 0,
+    unemploymentEmployer: 0,
     gross: 0,
-    employer: 0,
-    breakdown: {
+    pension: 0,
+    unemploymentEmployee: 0,
+    incomeTax: 0,
+    net: 0,
+    taxFree: 0,
+    percents: {
       employerCost: 0,
       socialTax: 0,
       unemploymentEmployer: 0,
@@ -57,18 +33,7 @@ export default function Calculator() {
       unemploymentEmployee: 0,
       incomeTax: 0,
       net: 0,
-      taxFree: 0,
-      percents: {
-        employerCost: 0,
-        socialTax: 0,
-        unemploymentEmployer: 0,
-        gross: 0,
-        pension: 0,
-        unemploymentEmployee: 0,
-        incomeTax: 0,
-        net: 0,
-      },
-    },
+    }
   });
   const [summary, setSummary] = useState<string>("");
   const [loading, setLoading] = useState<LoadingState>("idle");
@@ -78,8 +43,8 @@ export default function Calculator() {
     setLoading("salary");
     try {
       const salaryData = await fetchSalary(input, locale);
-      setResult(salaryData);
-      
+      setResults(salaryData);
+
       setLoading("summary");
       const summary = await fetchSummary(salaryData, locale);
       setSummary(summary);
@@ -132,7 +97,7 @@ export default function Calculator() {
           />
         </div>
         <div className="flex flex-col gap-6 lg:max-w-md py-6">
-          <SalaryResultTable breakdown={result.breakdown} />
+          <SalaryResultTable results={results} />
           <Summary summary={summary} />
         </div>
       </div>
