@@ -1,17 +1,13 @@
-import { Config } from 'tailwindcss';
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    './app/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './pages/**/*.{ts,tsx}',
+    "./app/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./pages/**/*.{ts,tsx}",
   ],
   theme: {
-    extend: {
-      screens: {
-        xs: '480px', // кастомный брейкпоинт
-      },
-    },
+    extend: {},
   },
   plugins: [],
 };

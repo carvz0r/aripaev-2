@@ -97,7 +97,7 @@ export default function Calculator() {
   const t = useTranslations("Calculator");
 
   return (
-    <div className="flex w-full xs:flex-col sm:flex-col md:flex-row xs:gap-8 md:gap-12">
+    <div className="flex w-full xs:flex-col md:flex-row xs:gap-8 md:gap-12">
       <div className="flex flex-col w-full lg:max-w-sm">
         <div
           className="p-4 rounded relative overflow-hidden"
