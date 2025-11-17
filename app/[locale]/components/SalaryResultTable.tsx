@@ -87,7 +87,7 @@ export default function SalaryResultTable({
               key={idx}
               className={`${idx % 2 !== 1 ? "bg-blue-50/25" : ""} ${
                 row.Highlighted ? "font-bold" : ""
-              } hover:bg-muted/40`}
+              } hover:bg-muted/40 dark:hover:bg-muted/90`}
             >
               <TableCell>{row.label}</TableCell>
               <TableCell
