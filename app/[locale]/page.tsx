@@ -1,7 +1,7 @@
 import { TypographyH1 } from "@/components/ui/h1";
-import Calculator from "./components/Calculator";
+import Calculator from "./components/Calculator/Calculator";
 import { useTranslations } from "next-intl";
-import LocaleSwitcher from "@/components/LocaleSwitcher";
+import LocaleSwitcher from "@/app/[locale]/components/Locale/LocaleSwitcher";
 
 export default function Home() {
   const t = useTranslations("HomePage");
