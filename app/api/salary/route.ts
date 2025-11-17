@@ -1,9 +1,10 @@
 // app/api/salary/route.ts
+import { routing } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  let locale = "en";
+  let locale = routing.defaultLocale;
   try {
     const body = await req.json();
     locale = body?.locale || locale;

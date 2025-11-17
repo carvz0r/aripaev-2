@@ -2,10 +2,10 @@
 import { NextResponse } from "next/server";
 import { getTranslations } from "next-intl/server";
 import OpenAI from "openai";
-import { AVAILABLE_LOCALES } from "@/i18n/routing";
+import { AVAILABLE_LOCALES, routing } from "@/i18n/routing";
 
 export async function POST(req: Request) {
-  let locale = "en";
+  let locale = routing.defaultLocale;
   try {
     const body = await req.json().catch(() => null);
     const { net, gross, employer } = body;
