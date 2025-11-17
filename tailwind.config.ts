@@ -6,6 +6,7 @@ const config: Config = {
     "./components/**/*.{ts,tsx}",
     "./pages/**/*.{ts,tsx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {},
   },
