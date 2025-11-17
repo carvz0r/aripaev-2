@@ -77,7 +77,7 @@ export default function Calculator() {
   const handleCalculate = async (input: SalaryInput) => {
     setLoading("salary");
     try {
-      const salaryData = await fetchSalary(input);
+      const salaryData = await fetchSalary(input, locale);
       setResult(salaryData);
       
       setLoading("summary");

@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-
+    
     const INCOME_TAX = 0.22;
     const SOCIAL_TAX = 0.33;
     const unempEmp = unemployment ? 0.008 : 0;
@@ -126,7 +126,7 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("Calculation error:", error);
-    
+
     // Getting locale translator
     const t = await getTranslations({ locale, namespace: "api" });
 

@@ -1,10 +1,10 @@
 import { SalaryInput } from "@/app/[locale]/components/CalculatorForm";
 
-export const fetchSalary = async (input: SalaryInput) => {
+export const fetchSalary = async (input: SalaryInput, locale: string) => {
   const res = await fetch("/api/salary", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(input),
+    body: JSON.stringify({ ...input, locale }),
   });
 
   const data = await res.json();
