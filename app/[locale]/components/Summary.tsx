@@ -9,11 +9,20 @@ export default function Summary({ summary }: Props) {
   const t = useTranslations("Summary");
 
   return (
-    <div className="mt-6 bg-yellow-50 p-5 rounded relative overflow-hidden">
-      <div className="absolute w-70 h-48 bg-white top-[-195] left-[-60] rotate-[-5deg]" />
-      <div className="absolute w-70 h-48 bg-white top-[-180] right-[-60] rotate-[5deg]" />
+    <div
+      className="mt-6 p-5 rounded relative overflow-hidden"
+      style={{ background: "var(--heading-background-3)" }}
+    >
+      <div
+        className="absolute w-70 h-48 top-[-195] left-[-60] rotate-[-5deg]"
+        style={{ background: "var(--card)" }}
+      />
+      <div
+        className="absolute w-70 h-48 top-[-180] right-[-60] rotate-[5deg]"
+        style={{ background: "var(--card)" }}
+      />
       <TypographyH3>{t("title")}:</TypographyH3>
-      <div className="space-y-4 text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+      <div className="space-y-4 text-sm leading-relaxed">
         {summary ? (
           summary
         ) : (

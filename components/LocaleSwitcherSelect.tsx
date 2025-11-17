@@ -15,7 +15,7 @@ import { SelectViewport } from "@radix-ui/react-select";
 import { useParams } from "next/navigation";
 
 type Props = {
-  options: { value: Locale; label: string, flag: string }[];
+  options: { value: Locale; label: string; flag: string }[];
   defaultValue: string;
 };
 
@@ -42,13 +42,14 @@ export default function LocaleSwitcherSelect({ options, defaultValue }: Props) {
       <Select value={defaultValue} onValueChange={switchLocale}>
         <SelectTrigger
           className={clsx(
-            "inline-flex items-center justify-between rounded px-3 py-2 bg-white text-sm",
+            "inline-flex items-center justify-between rounded px-3 py-2 text-sm",
             isPending && "opacity-50"
           )}
+          
         >
           <SelectValue placeholder="Select language" />
         </SelectTrigger>
-        <SelectContent className="bg-white rounded mt-1">
+        <SelectContent className="rounded mt-1">
           <SelectViewport>
             {options.map(({ value, label, flag }) => (
               <SelectItem
@@ -56,7 +57,7 @@ export default function LocaleSwitcherSelect({ options, defaultValue }: Props) {
                 value={value}
                 className="px-3 py-2 cursor-pointer hover:bg-gray-100"
               >
-                {flag + " " + label}
+                <span>{flag}</span>{label}
               </SelectItem>
             ))}
           </SelectViewport>

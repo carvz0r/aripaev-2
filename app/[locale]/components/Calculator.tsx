@@ -7,7 +7,6 @@ import { useLocale, useTranslations } from "next-intl";
 import Summary from "./Summary";
 import CalculatorForm, { SalaryInput } from "./CalculatorForm";
 
-
 export interface SalaryBreakdownPercents {
   employerCost: number;
   socialTax: number;
@@ -64,8 +63,8 @@ export default function Calculator() {
         pension: 0,
         unemploymentEmployee: 0,
         incomeTax: 0,
-        net: 0
-      }
+        net: 0,
+      },
     },
   });
   const [summary, setSummary] = useState<string>("");
@@ -100,20 +99,41 @@ export default function Calculator() {
   return (
     <div className="flex w-full xs:flex-col sm:flex-col md:flex-row xs:gap-8 md:gap-12">
       <div className="flex flex-col w-full lg:max-w-sm">
-        <div className="bg-blue-50 p-4 rounded relative overflow-hidden">
+        <div
+          className="p-4 rounded relative overflow-hidden"
+          style={{ background: "var(--heading-background-1)" }}
+        >
           <TypographyH2>{t("Input")}:</TypographyH2>
-          <div className="absolute w-70 h-48 bg-white bottom-[-185] right-[-50] rotate-[-5deg]" />
-          <div className="absolute w-30 h-60 bg-white bottom-[-150] right-[-100] rotate-[15deg]" />
+          <div
+            className="absolute w-70 h-48 bottom-[-185] right-[-50] rotate-[-5deg]"
+            style={{ background: "var(--card)" }}
+          />
+          <div
+            className="absolute w-30 h-60 bottom-[-150] right-[-100] rotate-[15deg]"
+            style={{ background: "var(--card)" }}
+          />
         </div>
 
         <CalculatorForm onCalculate={handleCalculate} loading={loading} />
       </div>
       <div className="flex flex-col w-full">
-        <div className="bg-green-50 p-4 rounded relative overflow-hidden">
+        <div
+          className="p-4 rounded relative overflow-hidden"
+          style={{ background: "var(--heading-background-2)" }}
+        >
           <TypographyH2>{t("Results")}:</TypographyH2>
-          <div className="absolute w-70 h-48 bg-white bottom-[-200] left-[-60] rotate-[9deg]" />
-          <div className="absolute w-70 h-48 bg-white bottom-[-190] right-[-60] rotate-[-8deg]" />
-          <div className="absolute w-30 h-60 bg-white bottom-[-100] right-[-100] rotate-[-19deg]" />
+          <div
+            className="absolute w-70 h-48 bottom-[-200] left-[-60] rotate-[9deg]"
+            style={{ background: "var(--card)" }}
+          />
+          <div
+            className="absolute w-70 h-48 bottom-[-190] right-[-60] rotate-[-8deg]"
+            style={{ background: "var(--card)" }}
+          />
+          <div
+            className="absolute w-30 h-60 bottom-[-100] right-[-100] rotate-[-19deg]"
+            style={{ background: "var(--card)" }}
+          />
         </div>
         <div className="flex flex-col gap-6 lg:max-w-md py-6">
           <SalaryResultTable breakdown={result.breakdown} />
