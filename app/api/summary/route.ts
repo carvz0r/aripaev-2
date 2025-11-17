@@ -47,27 +47,39 @@ export async function POST(req: Request) {
     }
 
     const localeObj = AVAILABLE_LOCALES.find((l) => l.value === locale);
-    const languageName = localeObj?.label || "English";
-
+    const languageName = localeObj?.label || "Eesti";
     const prompt = `
 This data refers to Estonia:
-- Net salary: €${net}
-- Gross salary: €${gross}
-- Employer total cost: €${employerCost}
+- Net salary: ${net} €
+- Gross salary: ${gross} €
+- Employer total cost: ${employerCost} €
+
+IMPORTANT:
+The numbers represent MONTHLY salary in euros.
+Do NOT interpret them as annual income.
+If the salary is unusually high or unusually low do not soften or downplay the classification.
 
 Based on this salary, classify it as:
+- extremely low
+- very low
 - low
 - medium
 - high
 - very high
+- extremely high
 
-Write a short summary in ${languageName} (3–4 sentences) **as if a human is responding** — do not sound like a machine or AI:
+For reference:
+- Typical net monthly salary in Estonia: 1,300–1,700 €
+- High salary: 2,500–4,000 €
+- Very high salary: 5,000 € and above
+- Very low salary: 800 € and below
+
+Write a short summary in ${languageName} (4–6 sentences) **as if a human is responding** — do not sound like a machine or AI:
 1. Explain what kind of lifestyle this salary provides in Estonia.
 2. Mention the current salary growth trend in Estonia (is it increasing or stable?).
 3. Suggest realistic skills, industries, or strategies to increase income, tailored to this salary level.
 Keep it concise, factual, and culturally relevant.
 `;
-
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 10000);
 
